@@ -1,0 +1,28 @@
+name: eBay Pokemon Card Daily Update
+
+on:
+  schedule:
+    - cron: "15 1,13 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Collect eBay listings
+        run: node scripts/collect-ebay-data.mjs
+        env:
+          EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+          EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
+          EBAY_MARKETPLACE_ID: EBAY_US
+      - name: Commit updated data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update eBay Pokemon card data"
