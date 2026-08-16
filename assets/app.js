@@ -165,6 +165,24 @@ function labelFor(card) {
   return "上昇";
 }
 
+function renderSourceNotice(data) {
+  const notice = $("sourceNotice");
+  if (!notice) return;
+  const source = data.source || "unknown";
+  if (source === "sample") {
+    notice.hidden = false;
+    notice.innerHTML = "<strong>これはサンプルデータです</strong>表示されている価格変化や需要変化は実際のeBayデータではありません。eBay APIキーをGitHub Secretsに登録し、GitHub Actionsの更新が成功すると実データに切り替わります。";
+    return;
+  }
+  if (source === "setup-required") {
+    notice.hidden = false;
+    notice.innerHTML = "<strong>実データはまだ接続されていません</strong>現在はランキングを表示していません。eBay APIキーをGitHub Secretsに登録し、GitHub Actionsの更新が成功するとランキングが表示されます。";
+    return;
+  }
+  notice.hidden = true;
+  notice.innerHTML = "";
+}
+
 async function loadData() {
   try {
     const response = await fetch("data/latest.json", { cache: "no-store" });
@@ -208,6 +226,12 @@ function renderSummary(cards) {
 function renderTable() {
   const visible = applyFilters(state.cards);
   const body = $("rankingBody");
+  if (!visible.length) {
+    body.innerHTML = `<tr><td colspan="8">現在表示できるカードがありません。実データ接続後、条件に合うカードがここに表示されます。</td></tr>`;
+    state.selectedKey = null;
+    renderDetail();
+    return;
+  }
   body.innerHTML = visible.map((card, index) => `
     <tr>
       <td>${index + 1}</td>
@@ -335,6 +359,7 @@ function bindEvents() {
 }
 
 loadData().then((data) => {
+  renderSourceNotice(data);
   state.generatedAt = data.generatedAt;
   state.cards = (data.cards || []).map((card) => ({ ...card, score: calculateScore(card) }));
   renderSummary(state.cards);
