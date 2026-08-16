@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eBay Pokemon Card 高騰検知</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">eBay Pokemon Card Watch</p>
+        <h1>今、eBayで高騰し始めているポケモンカードランキング</h1>
+      </div>
+      <button id="csvButton" class="primary-button">CSVダウンロード</button>
+    </header>
+
+    <main>
+      <section class="summary" id="summary"></section>
+
+      <nav class="tabs" aria-label="ランキング分類">
+        <button class="tab is-active" data-tab="start">高騰開始</button>
+        <button class="tab" data-tab="demand">需要急増</button>
+        <button class="tab" data-tab="supply">在庫急減</button>
+        <button class="tab" data-tab="hot">すでに高騰中</button>
+      </nav>
+
+      <section class="filters" aria-label="絞り込み">
+        <label>状態
+          <select id="gradeFilter">
+            <option value="all">すべて</option>
+            <option value="RAW">RAW</option>
+            <option value="PSA10">PSA10</option>
+            <option value="PSA9">PSA9</option>
+            <option value="BGS">BGS</option>
+            <option value="CGC">CGC</option>
+          </select>
+        </label>
+        <label>言語
+          <select id="languageFilter">
+            <option value="all">すべて</option>
+            <option value="Japanese">日本語</option>
+            <option value="English">英語</option>
+          </select>
+        </label>
+        <label>価格下限
+          <input id="minPrice" type="number" min="0" inputmode="decimal" placeholder="$0" />
+        </label>
+        <label>価格上限
+          <input id="maxPrice" type="number" min="0" inputmode="decimal" placeholder="$9999" />
+        </label>
+        <label>スコア
+          <input id="minScore" type="number" min="0" max="100" value="70" />
+        </label>
+        <label>販売数
+          <input id="minSales" type="number" min="0" value="0" />
+        </label>
+        <label>出品数
+          <input id="minListings" type="number" min="0" value="0" />
+        </label>
+      </section>
+
+      <section class="layout">
+        <div class="ranking">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>順位</th>
+                  <th>カード</th>
+                  <th>高騰スコア</th>
+                  <th>直近価格</th>
+                  <th>価格変化</th>
+                  <th>需要変化</th>
+                  <th>出品数変化</th>
+                  <th>判定</th>
+                </tr>
+              </thead>
+              <tbody id="rankingBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <aside class="detail" id="detail" aria-live="polite"></aside>
+      </section>
+    </main>
+
+    <script type="module" src="assets/app.js"></script>
+  </body>
+</html>
