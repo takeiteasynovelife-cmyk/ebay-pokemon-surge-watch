@@ -51,6 +51,21 @@ main {
   padding: 22px 32px 40px;
 }
 
+.notice {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid #f5c56b;
+  border-radius: 8px;
+  background: #fff8e6;
+  color: #603b00;
+  line-height: 1.55;
+}
+
+.notice strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
 .summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(150px, 1fr));
