@@ -1,0 +1,11 @@
+{
+  "name": "ebay-pokemon-surge-watch",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "collect": "node scripts/collect-ebay-data.mjs",
+    "sample": "node scripts/generate-sample-history.mjs",
+    "serve": "python3 -m http.server 4173"
+  }
+}
